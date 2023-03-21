@@ -46,6 +46,7 @@ public class Menu extends GameScene implements SceneMethods
 	private void drawLogo(Graphics g) { 
 		g.drawImage(logo, 0, 0, null); 
 	}
+	
 	public void initButtons() 
 	{
 		int width = 225;

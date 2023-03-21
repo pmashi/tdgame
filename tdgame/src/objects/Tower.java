@@ -58,6 +58,15 @@ public class Tower {
 		}
 	}
 	
+	public boolean isCooldownOver() {
+
+		return atkTick >= atkSpeed;
+	}
+
+	public void resetCooldown() {
+		atkTick = 0;
+	}
+	
 	public int getX() {
 		return x;
 	}

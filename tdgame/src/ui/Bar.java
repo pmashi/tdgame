@@ -14,8 +14,19 @@ public class Bar {
 	}
 	
 	protected void drawButtonFeedback(Graphics g, Buttons b) {
-		if(b.isMousePressed()) { 
+		// MouseOver
+		if (b.isMouseHover())
+			g.setColor(Color.white);
+		else
+			g.setColor(Color.BLACK);
 
+		// Border
+		g.drawRect(b.x, b.y, b.width, b.height);
+
+		// MousePressed
+		if (b.isMousePressed()) {
+			g.drawRect(b.x + 1, b.y + 1, b.width - 2, b.height - 2);
+			g.drawRect(b.x + 2, b.y + 2, b.width - 4, b.height - 4);
 		}
 	}
 }

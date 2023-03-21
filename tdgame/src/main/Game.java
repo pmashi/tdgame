@@ -25,13 +25,14 @@ public class Game extends JFrame implements Runnable
 	public static final int screenHeight = 645;
 	public static ImageIcon icon = new ImageIcon("/icon.png");
 	
+	
 	private GameRender render; 
 	private Menu menu; 
 	private Play play; 
 	private Settings settings; 
 	private Editing editing; 
 	private GameOver gameOver; 
-	
+	private TileManager tileManager; 
 
 
 	

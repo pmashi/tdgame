@@ -6,8 +6,9 @@ import helpers.LevelBuilder;
 import main.Game;
 import managers.TileManager;
 import managers.EnemyManager;
+import managers.ProjectileManager;
 import managers.TowerManager;
-
+import managers.WaveManager;
 import ui.ActionBar; 
 
 	
@@ -18,13 +19,24 @@ public class Play extends GameScene implements SceneMethods
 	private int mouseX, mouseY; 
 	private EnemyManager enemyManager; 
 	private TowerManager towerManager; 
-	private TileManager tileManager;
+	private ProjectileManager projectileManager; 
+	private WaveManager waveManager; 
+	
+	private PathPoint start, end; 
+	private Tower seelectedTower; 
+	private int goldTick; 
+	private boolean gamePaused; 
 	
 	public Play(Game game) 
 	{
 		super(game);
 		level = LevelBuilder.getLevelData();
-		tileManager = new TileManager();
+		
+		actionBar = new ActionBar(0, 640, 960, 160, this);
+		enemyManager = new EnemyManager(this, start, end);
+		towerManager = new TowerManager(this);
+		projectileManager = new ProjectileManager(this);
+		waveManager = new WaveManager(this);
 	}
 
 	public void render(Graphics g) 
