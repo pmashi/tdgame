@@ -188,8 +188,8 @@ public class ActionBar extends Bar {
 	}
 
 	private void sellTowerClicked() {
-		playing.removeTower(displayedTower);
-		gold += helpz.Constants.Towers.GetTowerCost(displayedTower.getTowerType()) / 2;
+		play.removeTower(displayedTower);
+		gold += helpers.Constants.Towers.GetTowerCost(displayedTower.getType()) / 2;
 
 		int upgradeCost = (displayedTower.getTier() - 1) * getUpgradeAmount(displayedTower);
 		upgradeCost *= 0.5f;
@@ -200,7 +200,7 @@ public class ActionBar extends Bar {
 	}
 
 	private void upgradeTowerClicked() {
-		playing.upgradeTower(displayedTower);
+		play.upgradeTower(displayedTower);
 		gold -= getUpgradeAmount(displayedTower);
 
 	}

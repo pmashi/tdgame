@@ -2,7 +2,7 @@ package objects;
 //should be completed ( balance stats later) 
 import static helpers.Constants.Towers.*; 
 public class Tower {
-	private int x, y, id, color, dmg, atkTick, level;
+	private int x, y, id, type, dmg, atkTick, level;
 	private int income; 
 	private float range, atkSpeed; 
 	
@@ -10,19 +10,19 @@ public class Tower {
 		this.x = x; 
 		this.y = y; 
 		this.id = id; 
-		this.color = color; 
+		this.type = color; 
 		level = 1; 
 		setDefaults(); 
 	}
 	
 	private void setDefaults() { 
-		atkSpeed = helpers.Constants.Towers.getAtkSpeed(color); 
-		range = helpers.Constants.Towers.getDefaultRange(color); 
-		switch(color) {
+		atkSpeed = helpers.Constants.Towers.getAtkSpeed(type); 
+		range = helpers.Constants.Towers.getDefaultRange(type); 
+		switch(type) {
 		case HACKER: 
-			income = helpers.Constants.Towers.getStartIncome(color); 
+			income = helpers.Constants.Towers.getStartIncome(type); 
 		default: 
-			dmg = helpers.Constants.Towers.getStartDamage(color); 
+			dmg = helpers.Constants.Towers.getStartDamage(type); 
 		}
 	}
 	
@@ -33,7 +33,7 @@ public class Tower {
 	public void upgradeTower() { 
 		level++; 
 		
-		switch(color) { 
+		switch(type) { 
 		case FIREWALL: 
 			dmg += 10; 
 			dmg += 10; 
@@ -43,18 +43,23 @@ public class Tower {
 			
 		case ALIEN: 
 			dmg += 15; 
+			break;
 		case ROBOLMER: 
 			dmg += 50; 
 			range += 10f; 
 			atkSpeed -= 50f; 
+			break;
 		case TESLA: 
 			dmg += 20; 
 			range += 10; 
+			break; 
 		case VPN_KNIGHT: 
 			dmg += 5; 
-			range += 15; 
+			range += 15;
+			break;
 		case HACKER:
 			income += 25; 
+			break;
 		}
 	}
 	
@@ -91,12 +96,12 @@ public class Tower {
 		this.id = id;
 	}
 
-	public int getColor() {
-		return color;
+	public int getType() {
+		return type;
 	}
 
-	public void setColor(int color) {
-		this.color = color;
+	public void setType(int type) {
+		this.type = type;
 	}
 
 	public int getDmg() {

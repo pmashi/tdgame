@@ -195,8 +195,8 @@ public class Constants {
 	}
 		
 	public static class Tiles { 
-		public static final int WATER = 0; 
-		public static final int GRASS = 1; 
-		public static final int PATH = 2;
+		public static final int WATER_TILE = 0; 
+		public static final int GRASS_TILE = 1; 
+		public static final int PATH_TILE = 2;
 	}
 }

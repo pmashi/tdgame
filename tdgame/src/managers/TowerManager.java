@@ -57,7 +57,7 @@ public class TowerManager {
 	}
 
 	public void addTower(Tower selectedTower, int x, int y) { 
-		towers.add(new Tower(x, y, towerAmount++, selectedTower.getTowerType())); 
+		towers.add(new Tower(x, y, towerAmount++, selectedTower.getType())); 
 	}
 	
 	public void draw(Graphics g) { 

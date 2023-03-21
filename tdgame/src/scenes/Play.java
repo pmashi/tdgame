@@ -50,7 +50,18 @@ public class Play extends GameScene implements SceneMethods
 			}
 		}
 	}
-
+	
+	public void update() { 
+		if(!gamePuased) { 
+			updateTick(); 
+		}
+	}
+	
+	public void setLevel(int[][] lvl) { 
+		level = lvl; 
+	}
+	
+	
 	@Override
 	public void mouseClicked(int x, int y) {
 		// TODO Auto-generated method stub

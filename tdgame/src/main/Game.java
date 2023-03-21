@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import managers.TileManager;
 import inputs.*;
 import scenes.*; 
 
@@ -119,6 +120,10 @@ public class Game extends JFrame implements Runnable
 		return render;
 	}
 	
+	public TileManager getTileManager() {
+		return tileManager;
+	}
+
 	public Menu getMenu() 
 	{
 		return menu;

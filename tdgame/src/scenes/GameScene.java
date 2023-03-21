@@ -21,6 +21,6 @@ public class GameScene //scenes superclass
 	}
 	
 	protected boolean isAnimation(int spriteID) {
-		return game.GetTileManager().isSpriteAnimation(spriteID); 
+		return game.getTileManager().isSpriteAnimation(spriteID); 
 	}
 }
