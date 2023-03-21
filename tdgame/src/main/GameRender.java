@@ -22,9 +22,13 @@ private Game game;
 				game.getPlay().render(g);
 				break;
 			case GAME_OVER: 
+				game.getGameOver().render(g);
 				break;
 			case EDIT: 
+				game.getEditing().render(g);
 				break; 
+			default: 
+				break;
 		}
 	}
 }

@@ -120,6 +120,16 @@ public class Game extends JFrame implements Runnable
 		return render;
 	}
 	
+	public Editing getEditing() {
+		return editing;
+	}
+
+
+	public GameOver getGameOver() {
+		return gameOver;
+	}
+
+
 	public TileManager getTileManager() {
 		return tileManager;
 	}
