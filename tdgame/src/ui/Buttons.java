@@ -6,100 +6,117 @@ import java.awt.Rectangle;
 
 public class Buttons 
 {
-	public int x, y, width, height, id;
 	private String text;
 	private Rectangle bounds;
-	private boolean mouseHover, mousePressed; 
-	
-	public Buttons(String text, int x, int y, int width, int height)
+	private boolean mouseOver, mousePressed;
+	public int x, y, width, height, id;
+
+	public Buttons(String text, int x, int y, int width, int height, int id) 
 	{
 		this.text = text;
 		this.x = x;
 		this.y = y;
 		this.width = width;
-		this.height = height;	
-		id = -1;
+		this.height = height;
+		this.id = id;
+		
 		initBounds();
 	}
 	
-	public Buttons(String text, int x, int y, int width, int height, int id)
+	public Buttons(String text, int x, int y, int width, int height) 
 	{
 		this.text = text;
 		this.x = x;
 		this.y = y;
 		this.width = width;
-		this.height = height;	
-		this.id = id; 
+		this.height = height;
+		this.id = -1;
+		
 		initBounds();
 	}
 	
-	public void initBounds()
+	public void initBounds() 
 	{
 		this.bounds = new Rectangle(x, y, width, height);
 	}
-	
-	public void draw(Graphics g)
+
+	public void draw(Graphics g) 
 	{
-		drawBody(g); 
-		
-		
+		drawBody(g);
+		drawBorder(g);
+		drawText(g);
+	}
+
+	public void drawBorder(Graphics g) 
+	{
 		g.setColor(Color.black);
 		g.drawRect(x, y, width, height);
 		
-		drawText(g);
+		if (mousePressed) 
+		{
+			g.drawRect(x + 1, y + 1, width - 2, height - 2);
+			g.drawRect(x + 2, y + 2, width - 4, height - 4);
+		}
 	}
 	
-	private void drawBody(Graphics g) {
-		// TODO Auto-generated method stub
-		if(mouseHover) {
-			g.setColor(Color.gray);	
-		} else g.setColor(Color.white); 
-		g.fillRect(x, y, width, height);
-	}
-
-	public void drawText(Graphics g)
+	public void drawBody(Graphics g) 
 	{
-		int textWidth = g.getFontMetrics().stringWidth(text);	
-		int textHeight = g.getFontMetrics().getHeight();
-		g.drawString(text, x - textWidth / 2 + width / 2, y + textHeight / 2 - 4 + height / 2);
+		if (mouseOver)
+		{
+			g.setColor(Color.DARK_GRAY);
+		}
+		else 
+		{
+			g.setColor(Color.white);
+			g.fillRect(x, y, width, height);	
+		}
 	}
-	
 
-	
-	//SETTERS AND GETTERS
-	public void setText(String text) { 
-		this.text = text; 
+	public void drawText(Graphics g) 
+	{
+		int w = g.getFontMetrics().stringWidth(text);
+		int h = g.getFontMetrics().getHeight();
+		g.drawString(text, x - w / 2 + width / 2, y + h / 2 - 3 + height / 2);
+	}
+
+	public void resetBooleans() 
+	{
+		this.mouseOver = false;
+		this.mousePressed = false;
 	}
 	
-	public void setMousePressed(boolean b) { 
-		mousePressed = b; 
+	public void setText(String text)
+	{
+		this.text = text;
 	}
 	
-	public void setMouseHover(boolean b) { 
-		mouseHover = b; 
+	public void setMousePressed(boolean mousePressed) 
+	{
+		this.mousePressed = mousePressed;
+	}
+
+	public void setMouseOver(boolean mouseOver) 
+	{
+		this.mouseOver = mouseOver;
 	}
 	
-	public boolean isMouseHover() { 
-		return mouseHover; 
+	public boolean isMouseOver()
+	{
+		return mouseOver;
 	}
 	
-	public boolean isMousePressed() { 
-		return mousePressed; 
+	public boolean isMousePressed()
+	{
+		return mousePressed;
 	}
-	
-	public int getId() { 
-		return id; 
-	}
-	
-	public Rectangle getBounds()
+
+	public Rectangle getBounds() 
 	{
 		return bounds;
 	}
 	
-	//resets the button booleans when cursor is not hovering over 
-	public void reset() { 
-		mousePressed = false; 
-		mouseHover = false; 
+	public int getID()
+	{
+		return id;
 	}
-
 }

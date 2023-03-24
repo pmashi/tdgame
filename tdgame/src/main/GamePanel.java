@@ -2,25 +2,25 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-import inputs.MyKeyboardListener;
+import inputs.KeyboardListener;
 import inputs.MyMouseListener;
-
-import java.util.ArrayList;
-import java.awt.image.BufferedImage;
+import scenes.Menu;
 
 public class GamePanel extends JPanel 
-{	
+{
 	private Game game;
 	private Dimension size = new Dimension(screenWidth, screenHeight);
+	private MyMouseListener mouseListener;
+	private KeyboardListener keyListener;
 	
-	public static final int screenWidth = 960;
-	public static final int screenHeight = 640;
+	public static final int screenWidth = Menu.unit * 30;
+	public static final int screenHeight = Menu.unit * 20;
 	
-	private MyKeyboardListener keyListener; 
-	private MyMouseListener mouseListener; 
 	public GamePanel(Game game) 
 	{ 
 		this.game = game;
@@ -37,7 +37,7 @@ public class GamePanel extends JPanel
 	public void initInputs()
 	{
 		mouseListener = new MyMouseListener(game);
-		keyListener = new MyKeyboardListener();
+		keyListener = new KeyboardListener(game);
 		
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseListener);
@@ -50,7 +50,4 @@ public class GamePanel extends JPanel
 		super.paintComponent(g);
 		game.getRender().render(g);
 	}
-	
-	
 }
-

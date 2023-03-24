@@ -1,61 +1,85 @@
 package objects;
-//should be completed ( balance stats later) 
-import static helpers.Constants.Towers.*; 
-public class Tower {
-	private int x, y, id, type, dmg, atkTick, level;
+
+import static helpers.Constants.Towers.*;
+
+public class Tower 
+{
+	private int x, y, id, towerType, color, atkTick, level, dmg;
 	private int income; 
 	private float range, atkSpeed; 
 	
-	public Tower(int x, int y, int id, int color) { 
+	public Tower(int x, int y, int id, int towerType) 
+	{ 
 		this.x = x; 
 		this.y = y; 
 		this.id = id; 
-		this.type = color; 
+		this.towerType = towerType;
 		level = 1; 
-		setDefaults(); 
+		setDefaultDmg();
+		setDefaultIncome(); 
+		setDefaultRange();
+		setDefaultCooldown();
 	}
 	
-	private void setDefaults() { 
-		atkSpeed = helpers.Constants.Towers.getAtkSpeed(type); 
-		range = helpers.Constants.Towers.getDefaultRange(type); 
-		switch(type) {
-		case HACKER: 
-			income = helpers.Constants.Towers.getStartIncome(type); 
-		default: 
-			dmg = helpers.Constants.Towers.getStartDamage(type); 
-		}
+	public void update()
+	{
+		atkTick++;
+	}
+
+	public boolean isCooldownOver()
+	{
+		return atkTick >= atkSpeed;
+	}
+
+	public void resetCooldown() 
+	{
+		atkTick = 0;
 	}
 	
-	public void update() { 
-		atkTick++; 
+	public void setDefaultCooldown() 
+	{
+		atkSpeed = helpers.Constants.Towers.getAtkSpeed(towerType);
 	}
 	
-	public void upgradeTower() { 
+	public void setDefaultRange() 
+	{
+		range = helpers.Constants.Towers.getDefaultRange(towerType);
+	}
+
+	public void setDefaultDmg() 
+	{
+		dmg = helpers.Constants.Towers.getInitialDamage(towerType);
+	}
+	
+	public void setDefaultIncome() 
+	{
+		income = helpers.Constants.Towers.getInitialDamage(towerType); 
+	}
+	
+	public void upgradeTower() 
+	{ 
 		level++; 
-		
-		switch(type) { 
-		case FIREWALL: 
-			dmg += 10; 
-			dmg += 10; 
-			range += 10f; 
-			atkSpeed -= 5f;
+		switch (towerType) 
+		{ 
+		case FIREWALL: 	
+			dmg += 5; 
+			range += 2;
 			break; 
-			
-		case ALIEN: 
-			dmg += 15; 
+		case ANTI_VIRUS: 
+			dmg += 5; 
 			break;
 		case ROBOLMER: 
-			dmg += 50; 
-			range += 10f; 
-			atkSpeed -= 50f; 
+			dmg += 5; 
+			range += 3; 
+			atkSpeed -= 1; 
 			break;
 		case TESLA: 
-			dmg += 20; 
-			range += 10; 
-			break; 
-		case VPN_KNIGHT: 
 			dmg += 5; 
-			range += 15;
+			range += 2; 
+			break;
+		case VPN_KNIGHT: 
+			range += 5; 
+			atkSpeed -= 1;
 			break;
 		case HACKER:
 			income += 25; 
@@ -63,64 +87,78 @@ public class Tower {
 		}
 	}
 	
-	public boolean isCooldownOver() {
-
-		return atkTick >= atkSpeed;
-	}
-
-	public void resetCooldown() {
-		atkTick = 0;
-	}
-	
-	public int getX() {
+	public int getX() 
+	{
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(int x) 
+	{
 		this.x = x;
 	}
 
-	public int getY() {
+	public int getY() 
+	{
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(int y) 
+	{
 		this.y = y;
 	}
 
-	public int getId() {
+	public int getID() {
+		
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(int id) 
+	{
 		this.id = id;
 	}
 
-	public int getType() {
-		return type;
+	public int getColor() 
+	{
+		return color;
 	}
 
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	public int getDmg() {
-		return dmg;
+	public void setColor(int color) 
+	{
+		this.color = color;
 	}
 	
-	public int getIncome() { 
+	public int getIncome() 
+	{ 
 		return income; 
 	}
 
-	public int getLevel() {
+	public int getLevel() 
+	{
 		return level;
 	}
 
-	public float getRange() {
+	public int getDmg() 
+	{
+		return dmg;
+	}
+
+	public float getRange() 
+	{
 		return range;
 	}
 
-	public float getAtkSpeed() {
+	public float getAtkSpeed() 
+	{
 		return atkSpeed;
 	}
+	
+	public int getTowerType() 
+	{
+		return towerType;
+	}
+
+	public void setTowerType(int towerType) 
+	{
+		this.towerType = towerType;
+	}	
 }

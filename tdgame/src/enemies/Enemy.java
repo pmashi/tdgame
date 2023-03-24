@@ -1,48 +1,45 @@
 package enemies;
 
-import static helpers.Constants.Direction.*;
 import java.awt.Rectangle;
-
 import managers.EnemyManager;
+import scenes.Menu;
+import static helpers.Constants.Direction.*;
 
-public abstract class Enemy {
-	protected EnemyManager enemyManager; 
-	protected float x, y; //position
-	protected Rectangle hitbox; 
-	protected int health;
-	protected int maxHealth;
-	protected int ID;
-	protected int color; 
-	protected int lastDir; //directional management
-	protected boolean alive = true; 
-		
-	public Enemy(float x, float y, int id, int color, EnemyManager enemyManager) {
-		 this.x = x;
-		 this.y = y; 
-		 ID = id; 
-		 this.color = color; 
-		 hitbox = new Rectangle((int) x, (int) y, 32, 32); 
-		 health = helpers.Constants.Enemies.getInitialHealth(color); 
-		 maxHealth = health; 
-	}
+public abstract class Enemy 
+{
+	protected Rectangle bounds;
+	protected EnemyManager enemyManager;
+	protected float x, y;
+	protected int health, maxHealth, dmg, id;
+	protected int enemyType;
+	protected int slowTickLimit = 120, slowTick = slowTickLimit;
+	protected int lastDirection;
+	protected boolean alive = true;
 	
-	private void hurt(int dmg) { 
-		health-= dmg;
-		if(health <= 0) { 
-			alive = false; 
-			enemyManager.rewardPlayer(color); 
+	public Enemy(float x, float y, int id, int enemyType, EnemyManager enemyManager)
+	{
+		this.x = x;
+		this.y = y;
+		this.id = id;
+		this.enemyType = enemyType;
+		this.enemyManager = enemyManager;
+		bounds = new Rectangle((int)x, (int)y, Menu.unit, Menu.unit);
+		lastDirection = -1;
+		setInitialHealth();
+		setDmg();
+	}
+
+	public void move(float speed, int direction)
+	{
+		if(slowTick < slowTickLimit)
+		{
+			slowTick++;
+			speed *= 0.75f;
 		}
-	}
-	
-	private void escape() { 
-		alive = false; 
-		health = 0; 
-	}
-	
-	public void move(float speed, int dir) { 
-		lastDir = dir;
-
-		switch (dir) {
+		
+		lastDirection = direction;
+		switch (direction)
+		{
 		case LEFT:
 			this.x -= speed;
 			break;
@@ -56,53 +53,103 @@ public abstract class Enemy {
 			this.y += speed;
 			break;
 		}
-
 		updateHitbox();
 	}
 	
-	private void updateHitbox() { 
-		hitbox.x = (int) x; 
-		hitbox.y = (int) y; 
-	}
-	
-	public void setPos(int x, int y) { 
-		this.x = x; 
-		this.y = y; 
+	public void slow()
+	{
+		slowTick = 0;
 	}
 
-	public float getX() {
+	public void hurt(int dmg)
+	{
+		this.health -= dmg;
+		if (health <= 0)
+		{
+			alive = false;
+			enemyManager.rewardBitcoin(enemyType);
+		}
+	}
+	
+	public void kill()
+	{
+		alive = false;
+		health = 0;
+	}
+	
+	public void updateHitbox()
+	{
+		bounds.x = (int)x;
+		bounds.y = (int)y;
+	}
+
+	public void setInitialHealth()
+	{
+		health = helpers.Constants.Enemies.getInitialHealth(enemyType);
+		maxHealth = health;
+	}
+	
+	public void setDmg() 
+	{
+		dmg = helpers.Constants.Enemies.getDmg(enemyType);
+	}
+	
+	public int getDmg() 
+	{
+		return dmg;
+	}
+	
+	public void setPosition(int x, int y) 
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	public Rectangle getBounds() 
+	{
+		return bounds;
+	}
+	public float getX() 
+	{
 		return x;
 	}
 
-	public float getY() {
+	public float getY() 
+	{
 		return y;
 	}
 
-	public Rectangle getHitbox() {
-		return hitbox;
+	public float getHealthBarFloat()
+	{
+		return health / (float)maxHealth;
 	}
-
-	public int getHealth() {
+	public int getHealth() 
+	{
 		return health;
 	}
 
-	public int getID() {
-		return ID;
+	public int getID() 
+	{
+		return id;
 	}
 
-	public int getColor() {
-		return color;
+	public int getEnemyType() 
+	{
+		return enemyType;
 	}
-
-	public int getLastDir() {
-		return lastDir;
+	
+	public int getLastDirection()
+	{
+		return lastDirection;
 	}
-
-	public void setLastDir(int lastDir) {
-		this.lastDir = lastDir;
-	}
-
-	public boolean isAlive() {
+	
+	public boolean isAlive()
+	{
 		return alive;
+	}
+	
+	public boolean isSlowed()
+	{
+		return slowTick < slowTickLimit;
 	}
 }

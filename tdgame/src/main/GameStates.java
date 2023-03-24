@@ -1,11 +1,13 @@
 package main;
 
-public enum GameStates {
-	MENU, SETTINGS, PLAY, GAME_OVER, EDIT; 
+public enum GameStates 
+{
+	MENU, PLAY, EDIT, GAME_OVER;
 	
-	public static GameStates gameState = MENU; 
+	public static GameStates gameState = MENU;	
 	
-	public static void setGameState(GameStates state) { 
-		gameState = state; 
+	public static void setGameState(GameStates state)
+	{
+		gameState = state;
 	}
 }

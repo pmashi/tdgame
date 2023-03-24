@@ -1,200 +1,253 @@
 package helpers;
 
-public class Constants {
-	public static class Projectiles { 
+public class Constants 
+{	
+	public static class Bitcoin 
+	{
+		public static final int START = 200; 
+		
+		public static int getInitialBudget() 
+		{
+			return START; 
+		}
+	}
+	public static class Projectiles 
+	{ 
 		public static final int FIREBALL = 0; 
 		public static final int LASERS = 1;
 		public static final int JAVACUP = 2;
 		public static final int LIGHTNING = 3;
 		public static final int ARROW = 4; 
 		
-		public static float getSpeed(int type) { 
-			switch(type) { 
+		public static float getSpeed(int type) 
+		{ 
+			switch(type)
+			{ 
 			case FIREBALL:
-				return 10f; 
+				return 5f; 
 			case LASERS:
 				return 12f; 
 			case JAVACUP: 
-				return 8f; 
+				return 10f; 
 			case LIGHTNING: 
-				return 20f; 
+				return 15f; 
 			case ARROW: 
-				return 8f; 
+				return 5f; 
 			}
 			return 0f; 
 		}	
 	}
 	
-	public static class Towers { 
-		public static final int FIREWALL = 0; 
-		public static final int ALIEN = 1; 
-		public static final int ROBOLMER = 2;  
-		public static final int TESLA = 3;
-		public static final int VPN_KNIGHT = 4; 
-		public static final int HACKER = 5; 
-
-		public static int GetTowerCost(int towerID) {
-			switch (towerID) {
-			case FIREWALL:
-				return 120;
-			case ALIEN:
-				return 350;
-			case ROBOLMER: 
-				return 800;
-			case TESLA:
-				return 400; 
-			case VPN_KNIGHT: 
-				return 350; 
-			case HACKER:
-				return 500;
-			}
-			return 0;
-		}
+	public static class Towers 
+	{ 
+		public static final int HACKER = 0; 
+		public static final int FIREWALL = 1; 
+		public static final int ANTI_VIRUS = 2;  
+		public static final int ROBOLMER = 3;
+		public static final int TESLA = 4; 
+		public static final int VPN_KNIGHT = 5; 
 		
-		public static String getName(int towerID) { 
-			switch (towerID) {
+		public static String getName(int towerType) 
+		{ 
+			switch (towerType) 
+			{
 
 			case FIREWALL:
 				return "Firewall";
-			case ALIEN:
-				return "Alien";
+			case ANTI_VIRUS:
+				return "Anti-Virus";
 			case ROBOLMER: 
 				return "Robolmer";
 			case TESLA:
 				return "Tesla"; 
 			case VPN_KNIGHT: 
-				return "VPN_Knight"; 
+				return "VPN Knight"; 
 			case HACKER:
 				return "Hacker";
 			}
 			return "";
 		}
 		
-		public static int getStartDamage(int towerID) { 
-			switch (towerID) {
+		public static int getTowerCost(int towerType) 
+		{
+			switch (towerType) 
+			{
+			case FIREWALL:
+				return 100;
+			case ANTI_VIRUS:
+				return 100;
+			case ROBOLMER: 
+				return 500;
+			case TESLA:
+				return 100; 
+			case VPN_KNIGHT: 
+				return 100; 
+			case HACKER:
+				return 400;
+			}
+			return 0;
+		}
+		
+		public static int getInitialDamage(int towerType) 
+		{ 
+			switch (towerType) 
+			{
 			case FIREWALL:
 				return 10;
-			case ALIEN:
-				return 10;
+			case ANTI_VIRUS:
+				return 5;
 			case ROBOLMER: 
-				return 50;
+				return 30;
 			case TESLA:
-				return 40; 
+				return 3; 
 			case VPN_KNIGHT: 
-				return 30; 	
+				return 10; 	
 			}
 			return 0; 
 		}
 		
-		public static int getStartIncome(int towerID) { 
-			switch (towerID) { 
+		public static int getInitialIncome(int towerType) 
+		{ 
+			switch (towerType) 
+			{
 			case HACKER: 
 				return 50; 
 			}
 			return 0; 
 		}
 		
-		public static float getDefaultRange(int towerID) {
-			switch (towerID) {
+		public static float getDefaultRange(int towerType) 
+		{
+			switch (towerType)
+			{
 			case FIREWALL:
-				return 50f;
-			case ALIEN:
-				return 100f;
+				return 100;
+			case ANTI_VIRUS:
+				return 150;
 			case ROBOLMER: 
-				return 150f;
+				return 175;
 			case TESLA:
-				return 70f; 
+				return 75; 
 			case VPN_KNIGHT: 
-				return 100f; 
+				return 125; 
 			case HACKER:
-				return 10f;
+				return 1;
 			}
 			return 0; 
 		}
 		
-		public static float getAtkSpeed(int towerID) {
-			switch (towerID) {
+		public static float getAtkSpeed(int towerType) 
+		{
+			switch (towerType)
+			{
 			case FIREWALL:
-				return 50f;
-			case ALIEN:
-				return 100f;
+				return 40;
+			case ANTI_VIRUS:
+				return 15;
 			case ROBOLMER: 
-				return 150f;
+				return 20;
 			case TESLA:
-				return 70f; 
+				return 8; 
 			case VPN_KNIGHT: 
-				return 100f; 
+				return 50; 
 			case HACKER:
-				return 10f;
+				return 30;
 			}
 			return 0; 
 		}
 	}
-
-	public static class Direction { 
+	
+	public static class Enemies 
+	{ 
+		public static final int RED_VIRUS = 0;
+		public static final int BLUE_VIRUS = 1;
+		public static final int GREEN_VIRUS = 2; 
+		public static final int YELLOW_VIRUS = 3; 
+		public static final int PINK_VIRUS = 4; 
+		
+		public static int getReward(int enemyType) 
+		{ 
+			switch (enemyType) 
+			{ 
+			case RED_VIRUS: 
+				return 5; 
+			case BLUE_VIRUS: 
+				return 10; 
+			case GREEN_VIRUS: 
+				return 20; 
+			case YELLOW_VIRUS: 
+				return 30;
+			case PINK_VIRUS: 
+				return 40; 
+			}
+			return 0; 
+		}
+		
+		public static float getSpeed(int enemyType) 
+		{ 
+			switch (enemyType) 
+			{ 
+			case RED_VIRUS: 
+				return 0.8f; 
+			case BLUE_VIRUS: 
+				return 0.8f; 
+			case GREEN_VIRUS: 
+				return 0.7f; 
+			case YELLOW_VIRUS: 
+				return 1f;
+			case PINK_VIRUS: 
+				return 1.3f; 
+			}
+			return 0; 
+		}
+		
+		public static int getInitialHealth(int enemyType) 
+		{ 
+			switch(enemyType) 
+			{ 
+			case RED_VIRUS: 
+				return 100; 
+			case BLUE_VIRUS: 
+				return 150; 
+			case GREEN_VIRUS: 
+				return 600; 
+			case YELLOW_VIRUS: 
+				return 200;
+			case PINK_VIRUS: 
+				return 300; 
+			}
+			return 0; 
+		}
+		
+		public static int getDmg(int enemyType) 
+		{
+			switch(enemyType) 
+			{ 
+			case RED_VIRUS: 
+				return 10; 
+			case BLUE_VIRUS: 
+				return 10; 
+			case GREEN_VIRUS: 
+				return 20; 
+			case YELLOW_VIRUS: 
+				return 20;
+			case PINK_VIRUS: 
+				return 30; 
+			}
+			return 0; 
+		}
+	}
+		
+	public static class Direction 
+	{ 
 		public static final int LEFT = 0; 
 		public static final int UP = 1; 
 		public static final int RIGHT = 2;
 		public static final int DOWN = 3; 
 	}
 	
-	public static class Enemies { 
-		public static final int RED = 0;
-		public static final int BLUE = 1;
-		public static final int GREEN = 2; 
-		public static final int YELLOW = 3; 
-		public static final int PINK = 4; 
-		
-		public static int getReward(int enemyID) { 
-			switch(enemyID) { 
-			case RED: 
-				return 10; 
-			case BLUE: 
-				return 20; 
-			case GREEN: 
-				return 30; 
-			case YELLOW: 
-				return 40;
-			case PINK: 
-				return 50; 
-			}
-			return 0; 
-		}
-		
-		public static float getSpeed(int enemyID) { 
-			switch(enemyID) { 
-			case RED: 
-				return 0.5f; 
-			case BLUE: 
-				return 0.5f; 
-			case GREEN: 
-				return 0.6f; 
-			case YELLOW: 
-				return 0.7f;
-			case PINK: 
-				return 0.8f; 
-			}
-			return 0; 
-		}
-		
-		public static int getInitialHealth(int enemyID) { 
-			switch(enemyID) { 
-			case RED: 
-				return 50; 
-			case BLUE: 
-				return 150; 
-			case GREEN: 
-				return 300; 
-			case YELLOW: 
-				return 100;
-			case PINK: 
-				return 100; 
-			}
-			return 0; 
-		}
-	}
-		
-	public static class Tiles { 
+	public static class Tiles 
+	{ 
 		public static final int WATER_TILE = 0; 
 		public static final int GRASS_TILE = 1; 
 		public static final int PATH_TILE = 2;

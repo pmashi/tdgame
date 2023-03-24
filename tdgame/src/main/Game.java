@@ -1,97 +1,81 @@
 package main;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-
+import helpers.SaveLoader;
 import managers.TileManager;
-import inputs.*;
-import scenes.*; 
+import scenes.Edit;
+import scenes.GameOver;
+import scenes.Menu;
+import scenes.Play;
 
 public class Game extends JFrame implements Runnable
 {
-	
-	private final double FPS = 120; 
-	private final double UPS = 60;
-	
 	private GamePanel gamePanel; 
-	private Thread gameThread; 
-
-	private BufferedImage img;
-	public static final int screenWidth = 973;
-	public static final int screenHeight = 645;
-	public static ImageIcon icon = new ImageIcon("/icon.png");
+	private Thread gameThread;
+	private GameRender render;
+	private Menu menu;
+	private Play play;
+	private Edit edit;
+	private GameOver gameOver;
+	private TileManager tileManager;
 	
+	public static final double FPS = 120.0;
+	public static final double UPS = 60.0;
+	public static ImageIcon icon = new ImageIcon("./res/icon.png");
 	
-	private GameRender render; 
-	private Menu menu; 
-	private Play play; 
-	private Settings settings; 
-	private Editing editing; 
-	private GameOver gameOver; 
-	private TileManager tileManager; 
-
-
+	public static void main(String[] args) 
+	{
+		Game game = new Game(); 
+		game.gamePanel.initInputs();
+		game.start();
+	}
 	
 	public Game() 
 	{ 
-		initClasses(); 
+		initClasses();
+		createDefaultLevel();
+		
 		setIconImage(icon.getImage());	
 		setTitle("Software TD");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(screenWidth, screenHeight);
-		setLocationRelativeTo(null);
 		setResizable(false);	
-		
 		add(gamePanel);
+		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-
-	private void initClasses() { 
+	
+	public void initClasses()
+	{
+		tileManager = new TileManager();
 		gamePanel = new GamePanel(this);
 		render = new GameRender(this); 
 		menu = new Menu(this);
 		play = new Play(this);
-		settings = new Settings(this);	
+		edit = new Edit(this);
+		gameOver = new GameOver(this);
 	}
 	
-	
-	
-	
-	public void start() { 
-		gameThread = new Thread(this){}; 
-		gameThread.start(); 
-	}
-
-	public static void main(String[] args) 
+	public void start()
 	{
-		Game game = new Game(); 
-		game.gamePanel.initInputs(); 
-		game.start();
+		gameThread = new Thread(this) {};
+		gameThread.start();
 	}
 	
-	
-	
-	public void run() {
-		double timePerFrame = 1000000000.0 / FPS; //nanoseconds -> seconds for 60 fps (1*10^9); 
-		double timePerUpdate = 1000000000.0 / UPS; 
-		
-		long lastFrame = System.nanoTime(); 
+	public void run() 
+	{
+		long lastFrame = System.nanoTime();
 		long lastUpdate = System.nanoTime();
-		long lastTimeCheck = System.currentTimeMillis(); 
-
-		int frames = 0; 
-		int updates = 0; 
+		long lastTimeCheck = System.currentTimeMillis();
+		long current;
+		double timePerFrame = 1000000000.0 / FPS;
+		double timePerUpdate = 1000000000.0 / UPS;
+		int frames = 0;
+		int updates = 0;
 		
-		long current; 
-		
-		while(true) {
-			
-			//rendering
+		while (true)
+		{
 			current = System.nanoTime(); 
 			if (current - lastFrame >= timePerFrame)
 			{
@@ -101,6 +85,7 @@ public class Game extends JFrame implements Runnable
 			}
 			if (current - lastUpdate >= timePerUpdate)
 			{
+				updateGame();
 				lastUpdate = current;
 				updates++;
 			}
@@ -114,26 +99,39 @@ public class Game extends JFrame implements Runnable
 		}
 	}
 	
-	//Getters 
+	public void updateGame()
+	{
+		switch (GameStates.gameState)
+		{
+		case EDIT:
+			break;
+		case MENU:
+			break;
+		case PLAY:
+			play.update();
+			break;
+		case GAME_OVER:
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void createDefaultLevel() 
+	{
+		int[] arr = new int[GamePanel.screenHeight * GamePanel.screenWidth];
+		for (int i = 0; i < arr.length; i++)
+		{
+			arr[i] = 0;
+		}
+		SaveLoader.createLevel("level_1", arr);
+	}
+
 	public GameRender getRender()
 	{
 		return render;
 	}
 	
-	public Editing getEditing() {
-		return editing;
-	}
-
-
-	public GameOver getGameOver() {
-		return gameOver;
-	}
-
-
-	public TileManager getTileManager() {
-		return tileManager;
-	}
-
 	public Menu getMenu() 
 	{
 		return menu;
@@ -144,8 +142,18 @@ public class Game extends JFrame implements Runnable
 		return play;
 	}
 	
-	public Settings getSettings() 
+	public Edit getEditor()
 	{
-		return settings;
+		return edit;
+	}
+	
+	public GameOver getGameOver()
+	{
+		return gameOver;
+	}
+	
+	public TileManager getTileManager()
+	{
+		return tileManager;
 	}
 }

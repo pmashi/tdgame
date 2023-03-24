@@ -1,339 +1,431 @@
 package ui;
 
-import static main.GameStates.*; 
-
+import static main.GameStates.*;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
+import java.text.DecimalFormat;
 
+import helpers.Constants;
 import helpers.Constants.Towers;
 import objects.Tower;
+import scenes.Menu;
 import scenes.Play;
 
-public class ActionBar extends Bar {
-	private Play play; 
-	private Buttons bMenu, bPause; 
-	
-	private Buttons[] towerButtons; 
-	private Tower selectedTower, displayedTower; 
-	private Buttons sellTower, upgradeTower; 
-	
-	private int gold = 200; //200 start 
-	private boolean showTowerCost; 
-	private int towerCostType; 
-	
-	private int lives = 100; 
-	
-	public ActionBar(int x, int y, int w, int h, Play play) { 
-		super(x, y, w, h);
-		this.play = play; 
+public class ActionBar extends Bar
+{
+	private Play play;
+	private Buttons bMenu, bPause;
+	private Buttons sellTower, upgradeTower;
+	private Buttons[] towerButtons;
+	private Tower selectedTower;
+	private Tower displayedTower;
+	private DecimalFormat formatter;
+	private boolean showTowerCost;
+	private int towerCostType;
+	private int bitcoin = Constants.Bitcoin.getInitialBudget();
+	private int lives = 100;
+
+	public ActionBar(int x, int y, int width, int height, Play play) 
+	{
+		super(x, y, width, height);
+		this.play = play;
+		formatter = new DecimalFormat("0.0");
+		initButtons();
+	}
+
+	public void initButtons() 
+	{
+		bMenu = new Buttons("Menu", 8, 520, 125, 50);
+		bPause = new Buttons("Pause", 8, 580, 125, 50);
 		
-		initButtons(); 
-	}
-	
-	private void initButtons() { 
-		bMenu = new Buttons("Menu", 2, 642, 100, 30 );
-		bPause = new Buttons("Menu", 2, 682, 100, 30 );
-	}
-	
-	public void reset() { 
-		lives = 100; 
-		towerCostType = 0; 
-		showTowerCost = false; 
-		gold = 100;
-		selectedTower = null; 
-		displayedTower = null; 
+		towerButtons = new Buttons[6];
+		int width = 50;
+		int height = 50;
+		int xOffset = width / 4 + width;
 		
-	}
-	
-	public void removeLife(int dies) { 
-		lives -= dies; 
-		if(lives <= 0) 
-			setGameState(GAME_OVER);
-	}
-	
-	public void draw(Graphics g) {
-		g.setColor(new Color(220, 123, 15));
-		g.fillRect(x, y, width, height);
-		
-		drawButtons(g);
-		drawDisplayedTower(g); 
-		drawWaveInfo(g); 
-		drawGoldAmount(g);
-		
-		if(showTowerCost)
-			drawTowerCost(g);
-		
-		g.drawString("Lives: " + lives, 900, 600);
-	}
-	
-	private void drawButtons(Graphics g) { 
-		bMenu.draw(g);
-		bPause.draw(g);
-	}
-	
-	private void drawGoldAmount(Graphics g) { 
-		g.drawString("Gold: " + gold + "g", 900, 620);
-	}
-	
-	private boolean isTowerCostMoreThanCurrentGold() {
-		return getTowerCostCost() > gold;
-	}
-
-	private String getTowerCostName() {
-		return helpers.Constants.Towers.getName(towerCostType);
-	}
-
-	private int getTowerCostCost() {
-		return helpers.Constants.Towers.GetTowerCost(towerCostType);
-	}
-	private int getTowerCost(Graphics g) { 
-		return helpers.Constants.Towers.GetTowerCost(towerCostType); 
-	}
-	
-	private void drawWaveInfo(Graphics g) {
-		g.setColor(Color.black);
-		g.setFont(new Font("LucidaSans", Font.BOLD, 20));
-		drawWaveTimerInfo(g);
-		drawEnemiesLeftInfo(g);
-		drawWavesLeftInfo(g);
-
-	}
-
-	private void drawWavesLeftInfo(Graphics g) {
-		int current = play.getWaveManager().getWaveIndex();
-		int size = play.getWaveManager().getWaves().size();
-		g.drawString("Wave " + (current + 1) + " / " + size, 425, 770);
-
-	}
-
-	private void drawEnemiesLeftInfo(Graphics g) {
-		int remaining = playing.getEnemyManger().getAmountOfAliveEnemies();
-		g.drawString("Enemies Left: " + remaining, 425, 790);
-	}
-
-	private void drawWaveTimerInfo(Graphics g) {
-		if (playing.getWaveManager().isWaveTimerStarted()) {
-
-			float timeLeft = playing.getWaveManager().getTimeLeft();
-			String formattedText = formatter.format(timeLeft);
-			g.drawString("Time Left: " + formattedText, 425, 750);
+		for (int i = 0; i < towerButtons.length; i++)
+		{
+			towerButtons[i] = new Buttons("", 150 + xOffset * i, 520, width, height, i);
+			sellTower = new Buttons("Sell", 750, 597, 70, 20);
+			upgradeTower = new Buttons("Upgrade", 845, 597, 70, 20);
 		}
 	}
 
-	private void drawDisplayedTower(Graphics g) {
-		if (displayedTower != null) {
+	public void draw(Graphics g) 
+	{
+		g.setColor(new Color(133, 50, 168));
+		g.fillRect(x, y, width, height);
+		drawButtons(g);
+		drawDisplayedTower(g);
+		drawWaveInfo(g);
+		g.setColor(Color.black);
+		g.drawString("Lives: " + lives, 530, 580);
+	}
+
+	public void drawWaveInfo(Graphics g)
+	{
+		g.setFont(Menu.thaleah);
+		g.setColor(Color.black);
+		drawEnemiesLeft(g);
+		drawWaveTimer(g);
+		drawWavesLeft(g);
+		drawBitcoinBalance(g);
+		if (showTowerCost)
+		{
+			drawTowerCost(g);
+		}
+	}
+	
+	public void drawTowerCost(Graphics g) 
+	{
+		g.setColor(Color.gray);
+		g.fillRect(330, 580, 180, 50);
+		g.setColor(Color.black);
+		g.drawRect(330, 580, 180, 50);
+		
+		g.drawString("" + getTowerCostName() + " Cost: ", 335, 600);
+		g.drawString(getTowerCost() + " bitcoins", 335, 620);
+		
+		if (towerCannotAfford())
+		{
+			g.setColor(Color.red);
+			g.drawString("Can't Afford", 150, 620);
+		}
+	}
+
+	public void drawBitcoinBalance(Graphics g) 
+	{
+		g.drawString("Bitcoin: " + bitcoin, 150, 600);
+	}
+
+	public void drawWavesLeft(Graphics g)
+	{
+		int current = play.getWaveManager().getWaveIndex();
+		int size = play.getWaveManager().getWaves().size();
+		g.drawString("Wave " + current + " / " + size, 530, 540);
+	}
+	
+	public void drawEnemiesLeft(Graphics g)
+	{
+		int remaining = play.getEnemyManager().getAliveEnemies();
+		g.drawString("Enemies Left: " + remaining, 530, 560);
+	}
+
+	public void drawWaveTimer(Graphics g)
+	{
+		if (play.getWaveManager().isWaveTimerStarted())
+		{
+			float timeLeft = play.getWaveManager().getTimeLeft();
+			String formattedText = formatter.format(timeLeft);
+			g.drawString("Next Wave: " + formattedText, 530, 610);
+		}
+	}
+
+	public void drawButtons(Graphics g) 
+	{
+		g.setFont(Menu.thaleah);
+
+		bMenu.draw(g);
+		bPause.draw(g);
+		
+		for (Buttons button : towerButtons)
+		{
 			g.setColor(Color.gray);
-			g.fillRect(410, 645, 220, 85);
+			g.fillRect(button.x, button.y, button.width, button.height);
+			g.drawImage(play.getTowerManager().getTowerImages()[button.getID()], button.x, button.y, button.width, button.height, null);			
+			drawButtonFeedback(g, button);
+		}
+	}
+	
+	public void drawDisplayedTower(Graphics g) 
+	{
+		if (displayedTower != null)
+		{
+			g.setColor(Color.gray);
+			g.fillRect(715, 525, 230, 100);
 			g.setColor(Color.black);
-			g.drawRect(410, 645, 220, 85);
-			g.drawRect(420, 650, 50, 50);
-			g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()], 420, 650, 50, 50, null);
-			g.setFont(new Font("LucidaSans", Font.BOLD, 15));
-			g.drawString("" + Towers.GetName(displayedTower.getTowerType()), 480, 660);
-			g.drawString("ID: " + displayedTower.getId(), 480, 675);
-			g.drawString("Tier: " + displayedTower.getTier(), 560, 660);
+			g.drawRect(715, 525, 230, 100);
+			g.setColor(Color.white);
+			g.fillRect(725, 535, 50, 50);
+			g.setColor(Color.black);
+			g.drawRect(725, 535, 50, 50);
+			g.drawImage(play.getTowerManager().getTowerImages()[displayedTower.getTowerType()], 725, 535, 50, 50, null);
+			g.setFont(Menu.thaleah);
+			g.drawString("" + Towers.getName(displayedTower.getTowerType()), 790, 545);
+			g.setFont(Menu.thaleahMedium);
+			g.drawString("ID: " + displayedTower.getID(), 790, 560);
+			g.drawString("Level: " + displayedTower.getLevel(), 790, 570);
+			
 			drawDisplayedTowerBorder(g);
 			drawDisplayedTowerRange(g);
-
-			// Sell button
-			sellTower.draw(g);
-			drawButtonFeedback(g, sellTower);
-
-			// Upgrade Button
-			if (displayedTower.getTier() < 3 && gold >= getUpgradeAmount(displayedTower)) {
+			
+			g.setFont(Menu.thaleahSmall);
+			
+			if (displayedTower.getLevel() < 4 && bitcoin >= getUpgradeAmount(displayedTower))
+			{
 				upgradeTower.draw(g);
 				drawButtonFeedback(g, upgradeTower);
 			}
-
-			if (sellTower.isMouseOver()) {
+			sellTower.draw(g);
+			drawButtonFeedback(g, sellTower);
+			if (sellTower.isMouseOver())
+			{
 				g.setColor(Color.red);
-				g.drawString("Sell for: " + getSellAmount(displayedTower) + "g", 480, 695);
-			} else if (upgradeTower.isMouseOver() && gold >= getUpgradeAmount(displayedTower)) {
-				g.setColor(Color.blue);
-				g.drawString("Upgrade for: " + getUpgradeAmount(displayedTower) + "g", 480, 695);
+				g.drawString("Sell for: " + getSellAmount(displayedTower) + " bitcoin", 790, 585);
 			}
-
+			else if (upgradeTower.isMouseOver() && bitcoin >= getUpgradeAmount(displayedTower))
+			{
+				g.setColor(Color.cyan);
+				g.drawString("Upgrade for: " + getUpgradeAmount(displayedTower) + " bitcoin", 790, 585);
+			}
 		}
-
 	}
 
-	private int getUpgradeAmount(Tower displayedTower) {
-		return (int) (helpz.Constants.Towers.GetTowerCost(displayedTower.getTowerType()) * 0.3f);
+	public void drawDisplayedTowerBorder(Graphics g) 
+	{
+		g.setColor(Color.yellow);
+		g.drawRect(displayedTower.getX(), displayedTower.getY(), Menu.unit, Menu.unit);
 	}
 
-	private int getSellAmount(Tower displayedTower) {
-		int upgradeCost = (displayedTower.getTier() - 1) * getUpgradeAmount(displayedTower);
-		upgradeCost *= 0.5f;
-
-		return helpz.Constants.Towers.GetTowerCost(displayedTower.getTowerType()) / 2 + upgradeCost;
-	}
-
-	private void drawDisplayedTowerRange(Graphics g) {
+	public void drawDisplayedTowerRange(Graphics g) 
+	{
 		g.setColor(Color.white);
-		g.drawOval(displayedTower.getX() + 16 - (int) (displayedTower.getRange() * 2) / 2, displayedTower.getY() + 16 - (int) (displayedTower.getRange() * 2) / 2, (int) displayedTower.getRange() * 2,
-				(int) displayedTower.getRange() * 2);
-
+		g.drawOval(displayedTower.getX() + 16 - (int)(displayedTower.getRange() * 2) / 2, displayedTower.getY() + 16 - (int)(displayedTower.getRange() * 2 ) / 2,				                		          (int)displayedTower.getRange() * 2, (int)displayedTower.getRange() * 2);
 	}
-
-	private void drawDisplayedTowerBorder(Graphics g) {
-
-		g.setColor(Color.CYAN);
-		g.drawRect(displayedTower.getX(), displayedTower.getY(), 32, 32);
-
+	
+	public void displayTower(Tower tower) 
+	{
+		displayedTower = tower;
 	}
-
-	public void displayTower(Tower t) {
-		displayedTower = t;
-	}
-
-	private void sellTowerClicked() {
-		play.removeTower(displayedTower);
-		gold += helpers.Constants.Towers.GetTowerCost(displayedTower.getType()) / 2;
-
-		int upgradeCost = (displayedTower.getTier() - 1) * getUpgradeAmount(displayedTower);
+	
+	public void sellTowerClicked()
+	{
+		int upgradeCost  = (displayedTower.getLevel() - 1) * getUpgradeAmount(displayedTower);
 		upgradeCost *= 0.5f;
-		gold += upgradeCost;
-
+		play.removeTower(displayedTower);
+		bitcoin += helpers.Constants.Towers.getTowerCost(displayedTower.getTowerType()) / 2;
+		bitcoin += upgradeCost;
 		displayedTower = null;
-
 	}
-
-	private void upgradeTowerClicked() {
+	
+	public void upgradeTowerClicked()
+	{
 		play.upgradeTower(displayedTower);
-		gold -= getUpgradeAmount(displayedTower);
-
+		bitcoin -= getUpgradeAmount(displayedTower);	
+	}
+	
+	public boolean towerCannotAfford()
+	{
+		return getTowerCost() > bitcoin;
+	}
+	
+	public boolean enoughBitcoin(int towerType)
+	{
+		return bitcoin >= helpers.Constants.Towers.getTowerCost(towerType); 
+	}
+	
+	public void pay(int towerType)
+	{
+		this.bitcoin -= helpers.Constants.Towers.getTowerCost(towerType);
 	}
 
-	private void togglePause() {
-		playing.setGamePaused(!playing.isGamePaused());
+	public void addBitcoin(int reward)
+	{
+		this.bitcoin += reward;
+	}
 
-		if (playing.isGamePaused())
+	public void togglePause() 
+	{
+		play.setGamePaused(!play.isGamePaused());
+		if (play.isGamePaused())
+		{
 			bPause.setText("Unpause");
+		}
 		else
+		{
 			bPause.setText("Pause");
-
+		}
 	}
-
-	public void mouseClicked(int x, int y) {
+	
+	public void removeLife(int dmg)
+	{
+		lives-= dmg;
+		if (lives <= 0)
+		{
+			setGameState(GAME_OVER);
+		}
+	}
+	
+	public void resetAll() 
+	{
+		lives = 100;
+		towerCostType = 0;
+		showTowerCost = false;
+		bitcoin = 100;
+		selectedTower = null;
+		displayedTower = null;
+	}
+	
+	public void mouseClicked(int x, int y) 
+	{
 		if (bMenu.getBounds().contains(x, y))
-			SetGameState(MENU);
+		{
+			setGameState(MENU);
+		}
 		else if (bPause.getBounds().contains(x, y))
+		{
 			togglePause();
-		else {
-
-			if (displayedTower != null) {
-				if (sellTower.getBounds().contains(x, y)) {
+		}
+		else
+		{
+			if (displayedTower != null)
+			{
+				if (sellTower.getBounds().contains(x, y))
+				{
 					sellTowerClicked();
-
 					return;
-				} else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getTier() < 3 && gold >= getUpgradeAmount(displayedTower)) {
+				}
+				else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getLevel() < 4 && bitcoin >= getUpgradeAmount(displayedTower))
+				{
 					upgradeTowerClicked();
 					return;
 				}
 			}
-
-			for (MyButton b : towerButtons) {
-				if (b.getBounds().contains(x, y)) {
-					if (!isGoldEnoughForTower(b.getId()))
-						return;
-
-					selectedTower = new Tower(0, 0, -1, b.getId());
-					playing.setSelectedTower(selectedTower);
+		}
+		for (Buttons button: towerButtons)
+		{
+			if (button.getBounds().contains(x, y))
+			{
+				if (enoughBitcoin(button.getID()))
+				{
+					selectedTower = new Tower(0, 0, -1, button.getID());
+					play.setSelectedTower(selectedTower);
 					return;
 				}
 			}
 		}
-
 	}
-
-	private boolean isGoldEnoughForTower(int towerType) {
-
-		return gold >= helpz.Constants.Towers.GetTowerCost(towerType);
-	}
-
-	public void mouseMoved(int x, int y) {
+	
+	public void mouseMoved(int x, int y) 
+	{
 		bMenu.setMouseOver(false);
 		bPause.setMouseOver(false);
 		showTowerCost = false;
 		sellTower.setMouseOver(false);
 		upgradeTower.setMouseOver(false);
-
-		for (MyButton b : towerButtons)
-			b.setMouseOver(false);
-
+		
+		for (Buttons button : towerButtons)
+		{
+			button.setMouseOver(false);
+		}
 		if (bMenu.getBounds().contains(x, y))
+		{
 			bMenu.setMouseOver(true);
+		}
 		else if (bPause.getBounds().contains(x, y))
+		{
 			bPause.setMouseOver(true);
-		else {
-
-			if (displayedTower != null) {
-				if (sellTower.getBounds().contains(x, y)) {
+		}
+		else 
+		{
+			if (displayedTower != null)
+			{
+				if (sellTower.getBounds().contains(x, y))
+				{
 					sellTower.setMouseOver(true);
 					return;
-				} else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getTier() < 3) {
+				}
+				else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getLevel() < 4)
+				{
 					upgradeTower.setMouseOver(true);
 					return;
 				}
 			}
-
-			for (MyButton b : towerButtons)
-				if (b.getBounds().contains(x, y)) {
-					b.setMouseOver(true);
+			for (Buttons button : towerButtons)
+			{
+				if (button.getBounds().contains(x, y)) 
+				{
+					button.setMouseOver(true);
 					showTowerCost = true;
-					towerCostType = b.getId();
+					towerCostType = button.getID();
 					return;
 				}
+			}	
 		}
 	}
 
-	public void mousePressed(int x, int y) {
+	public void mousePressed(int x, int y) 
+	{
 		if (bMenu.getBounds().contains(x, y))
+		{
 			bMenu.setMousePressed(true);
+		}
 		else if (bPause.getBounds().contains(x, y))
+		{
 			bPause.setMousePressed(true);
-		else {
-
-			if (displayedTower != null) {
-				if (sellTower.getBounds().contains(x, y)) {
+		}
+		else
+		{
+			if (displayedTower != null)
+			{
+				if (sellTower.getBounds().contains(x, y))
+				{
 					sellTower.setMousePressed(true);
 					return;
-				} else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getTier() < 3) {
+				}
+				else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getLevel() < 4)
+				{
 					upgradeTower.setMousePressed(true);
 					return;
 				}
 			}
-
-			for (MyButton b : towerButtons)
-				if (b.getBounds().contains(x, y)) {
-					b.setMousePressed(true);
+			for (Buttons button : towerButtons)
+			{
+				if (button.getBounds().contains(x, y)) 
+				{
+					button.setMousePressed(true);
 					return;
 				}
+			}
 		}
-
 	}
 
-	public void mouseReleased(int x, int y) {
+	public void mouseReleased(int x, int y) 
+	{
 		bMenu.resetBooleans();
 		bPause.resetBooleans();
-		for (MyButton b : towerButtons)
-			b.resetBooleans();
+		for (Buttons button : towerButtons)
+		{
+			button.resetBooleans();
+		}
 		sellTower.resetBooleans();
 		upgradeTower.resetBooleans();
-
 	}
 
-	public void payForTower(int towerType) {
-		this.gold -= helpz.Constants.Towers.GetTowerCost(towerType);
-
+	public int getUpgradeAmount(Tower displayedTower)
+	{
+		return (int)(helpers.Constants.Towers.getTowerCost(displayedTower.getTowerType()) * 0.3f);
 	}
 
-	public void addGold(int getReward) {
-		this.gold += getReward;
+	public int getSellAmount(Tower displayedTower) 
+	{
+		int upgradeCost  = (displayedTower.getLevel() - 1) * getUpgradeAmount(displayedTower);
+		upgradeCost *= 0.5f;
+		return helpers.Constants.Towers.getTowerCost(displayedTower.getTowerType()) / 2 + upgradeCost;
 	}
-
-	public int getLives() {
+	
+	public int getLives()
+	{
 		return lives;
+	}
+	
+	public int getTowerCost()
+	{
+		return helpers.Constants.Towers.getTowerCost(towerCostType);
+	}
+
+	public String getTowerCostName() 
+	{
+		return helpers.Constants.Towers.getName(towerCostType);
 	}
 }

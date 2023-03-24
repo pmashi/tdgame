@@ -1,32 +1,36 @@
 package ui;
 
-import java.awt.Color; 
-import java.awt.Graphics; 
+import java.awt.Color;
+import java.awt.Graphics;
 
-public class Bar {
-	protected int x, y, width, height; 
+public class Bar 
+{
+	protected int x, y, width, height;
 	
-	public Bar(int x, int y, int w, int h) { 
-		this.x = x; 
-		this.y = y; 
-		width = w; 
-		height = h; 
+	public Bar(int x, int y, int width, int height) 
+	{
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 	
-	protected void drawButtonFeedback(Graphics g, Buttons b) {
-		// MouseOver
-		if (b.isMouseHover())
+	protected void drawButtonFeedback(Graphics g, Buttons button) 
+	{
+		if (button.isMouseOver())
+		{
 			g.setColor(Color.white);
+		}
 		else
+		{
 			g.setColor(Color.BLACK);
+		}
+		g.drawRect(button.x, button.y, button.width, button.height);
 
-		// Border
-		g.drawRect(b.x, b.y, b.width, b.height);
-
-		// MousePressed
-		if (b.isMousePressed()) {
-			g.drawRect(b.x + 1, b.y + 1, b.width - 2, b.height - 2);
-			g.drawRect(b.x + 2, b.y + 2, b.width - 4, b.height - 4);
+		if (button.isMousePressed()) 
+		{
+			g.drawRect(button.x + 1, button.y + 1, button.width - 2, button.height - 2);
+			g.drawRect(button.x + 2, button.y + 2, button.width - 4, button.height - 4);
 		}
 	}
 }
