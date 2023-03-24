@@ -188,7 +188,7 @@ public class Constants
 			switch (enemyType) 
 			{ 
 			case RED_VIRUS: 
-				return 0.8f; 
+				return 3f; 
 			case BLUE_VIRUS: 
 				return 0.8f; 
 			case GREEN_VIRUS: 
@@ -224,7 +224,7 @@ public class Constants
 			switch(enemyType) 
 			{ 
 			case RED_VIRUS: 
-				return 10; 
+				return 50; 
 			case BLUE_VIRUS: 
 				return 10; 
 			case GREEN_VIRUS: 

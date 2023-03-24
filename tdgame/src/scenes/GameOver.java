@@ -2,9 +2,11 @@ package scenes;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.FontMetrics;
 import main.Game;
 import main.GamePanel;
 import ui.Buttons;
+import ui.ActionBar;
 import static main.GameStates.*;
 
 public class GameOver extends GameScene implements SceneMethods 
@@ -22,22 +24,28 @@ public class GameOver extends GameScene implements SceneMethods
 		int width = 150;
 		int height = width / 3;
 		int x = GamePanel.screenWidth / 2 - width / 2;
-		int y = 250;
+		int y = 300;
 		int yOffset = 100;
 		
 		bMenu = new Buttons("Menu", x, y, width, height);
 		bReplay = new Buttons("Replay", x, y + yOffset, width, height);
 	}
-
+	
+	public void drawButtons(Graphics g) 
+	{ 
+		bMenu.draw(g);
+		bReplay.draw(g);
+	}
+	
 	public void render(Graphics g) 
 	{		
 		g.setColor(Color.red);
 		g.setFont(Menu.thaleahMassive);
 		g.drawString("GAME OVER!", 275, 150);
+		g.drawString(ActionBar.win ? "You win!" : "You lose!", 300, 220);
 		
 		g.setFont(Menu.thaleah);
-		bMenu.draw(g);
-		bReplay.draw(g);
+		drawButtons(g); 
 	}
 	
 	public void replayGame()

@@ -24,6 +24,7 @@ public class ActionBar extends Bar
 	private int towerCostType;
 	private int bitcoin = Constants.Bitcoin.getInitialBudget();
 	private int lives = 100;
+	public static boolean win = false; 
 
 	public ActionBar(int x, int y, int width, int height, Play play) 
 	{
