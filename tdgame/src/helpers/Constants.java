@@ -224,15 +224,15 @@ public class Constants
 			switch(enemyType) 
 			{ 
 			case RED_VIRUS: 
-				return 50; 
+				return 3; 
 			case BLUE_VIRUS: 
-				return 10; 
+				return 6; 
 			case GREEN_VIRUS: 
-				return 20; 
+				return 15; 
 			case YELLOW_VIRUS: 
-				return 20;
+				return 24;
 			case PINK_VIRUS: 
-				return 30; 
+				return 37; 
 			}
 			return 0; 
 		}
