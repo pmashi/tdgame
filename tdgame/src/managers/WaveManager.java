@@ -49,13 +49,13 @@ public class WaveManager
 	
 	public void createWaves() 
 	{ 
-		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))));
 		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1))));
-		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2))));
-		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2))));
 		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(3, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3))));
-		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1))));
-		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3))));
 		// add more waves 
 	}
 	

@@ -62,22 +62,24 @@ public class Tower
 		switch (towerType) 
 		{ 
 		case FIREWALL: 	
-			dmg += 5; 
+			dmg += 4; 
 			range += 10;
+			atkSpeed -= 10; 
 			break; 
 		case ANTI_VIRUS: 
-			dmg += 5;
-			range += 10;
+			dmg += 8;
+			range += 13;
 			atkSpeed -= 10; 
 			break;
 		case ROBOLMER: 
-			dmg += 5; 
+			dmg += 10; 
 			range += 25; 
-			atkSpeed -= 4; 
+			atkSpeed -= 6; 
 			break;
 		case TESLA: 
 			dmg += 5; 
 			range += 50; 
+			atkSpeed -= 10; 
 			break;
 		case VPN_KNIGHT: 
 			dmg += 10; 

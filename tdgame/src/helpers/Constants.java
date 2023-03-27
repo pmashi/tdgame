@@ -88,13 +88,13 @@ public class Constants
 			case FIREWALL:
 				return 80;
 			case ANTI_VIRUS:
-				return 150;
+				return 230;
 			case ROBOLMER: 
 				return 600;
 			case TESLA:
-				return 450; 
+				return 300; 
 			case VPN_KNIGHT: 
-				return 230; 
+				return 370; 
 			case HACKER:
 				return 400;
 			}
@@ -106,13 +106,13 @@ public class Constants
 			switch (towerType) 
 			{
 			case FIREWALL:
-				return 15;
+				return 12;
 			case ANTI_VIRUS:
-				return 20;
+				return 25;
 			case ROBOLMER: 
 				return 15;
 			case TESLA:
-				return 50; 
+				return 80; 
 			case VPN_KNIGHT: 
 				return 10; 	
 			}
@@ -155,11 +155,11 @@ public class Constants
 			switch (towerType)
 			{
 			case FIREWALL:
-				return 90; 
+				return 80; 
 			case ANTI_VIRUS:
 				return 70;
 			case ROBOLMER: 
-				return 20; 
+				return 30; 
 			case TESLA:
 				return 100; 
 			case VPN_KNIGHT: 
@@ -204,11 +204,11 @@ public class Constants
 			case RED_VIRUS: 
 				return 0.7f; 
 			case BLUE_VIRUS: 
-				return 0.8f; 
+				return 0.7f; 
 			case GREEN_VIRUS: 
 				return 0.7f; 
 			case YELLOW_VIRUS: 
-				return 1f;
+				return 1.1f;
 			case PINK_VIRUS: 
 				return 1.3f; 
 			}
@@ -224,7 +224,7 @@ public class Constants
 			case BLUE_VIRUS: 
 				return 150; 
 			case GREEN_VIRUS: 
-				return 350; 
+				return 400; 
 			case YELLOW_VIRUS: 
 				return 200;
 			case PINK_VIRUS: 

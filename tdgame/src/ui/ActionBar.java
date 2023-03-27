@@ -165,6 +165,7 @@ public class ActionBar extends Bar
 			
 			if (displayedTower.getLevel() < 4 && bitcoin >= getUpgradeAmount(displayedTower))
 			{
+				g.setFont(Menu.thaleahSmall);
 				upgradeTower.draw(g);
 				drawButtonFeedback(g, upgradeTower);
 			}
@@ -407,7 +408,7 @@ public class ActionBar extends Bar
 
 	public int getUpgradeAmount(Tower displayedTower)
 	{
-		return (int)(helpers.Constants.Towers.getTowerCost(displayedTower.getTowerType()) * 0.3f);
+		return (int)(helpers.Constants.Towers.getTowerCost(displayedTower.getTowerType()) * 0.7f);
 	}
 
 	public int getSellAmount(Tower displayedTower) 
