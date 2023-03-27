@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import enemies.Enemy;
 import helpers.SaveLoader;
 import main.Game;
+import static main.GameStates.*; 
 import managers.EnemyManager;
 import managers.TowerManager;
 import managers.WaveManager;
@@ -16,6 +17,7 @@ import managers.ProjectileManager;
 import objects.PathPoint;
 import objects.Tower;
 import ui.ActionBar;
+import helpers.Constants.Difficulty;
 import static helpers.Constants.Tiles.GRASS_TILE;
 	
 public class Play extends GameScene implements SceneMethods
@@ -27,7 +29,8 @@ public class Play extends GameScene implements SceneMethods
 	private WaveManager waveManager;
 	private PathPoint start, end;
 	private Tower selectedTower;
-	private boolean gamePaused = false;
+	private Difficulty difficulty = Difficulty.EASY;
+	private boolean gamePaused = true;
 	private int[][] level;
 	private int mouseX, mouseY;
 	private int bitcoinTick = 0;
@@ -266,7 +269,11 @@ public class Play extends GameScene implements SceneMethods
 	
 	public boolean isThereMoreWaves()
 	{
-		return waveManager.isThereMoreWaves();
+		boolean isThere = waveManager.isThereMoreWaves();
+		if(isThere) {
+			//setGameState(GAME_OVER); 
+		}
+		return isThere; 
 	}
 	
 	public boolean isAllEnemiesDead() 
@@ -283,6 +290,12 @@ public class Play extends GameScene implements SceneMethods
 			}
 		}
 		return true;
+	}
+	
+	public void win() { 
+		if(actionBar.getWin()) {
+			setGameState(GAME_OVER);
+		}
 	}
 
 	public boolean isTileGrass(int x, int y) 
@@ -339,6 +352,10 @@ public class Play extends GameScene implements SceneMethods
 		return game.getTileManager().getTile(id).getTileType();
 	}
 
+	public Difficulty getDifficulty() {
+		return difficulty; 
+	}
+	
 	public void setLevel(int[][] level)
 	{
 		this.level = level;
@@ -352,5 +369,9 @@ public class Play extends GameScene implements SceneMethods
 	public void setGamePaused(boolean gamePaused)
 	{
 		this.gamePaused = gamePaused;
+	}
+	
+	public void gameWin() { 
+		
 	}
 }

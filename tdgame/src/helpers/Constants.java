@@ -2,15 +2,28 @@ package helpers;
 
 public class Constants 
 {	
+	public static enum Difficulty { 
+		EASY, MEDIUM, HARD, NIGHTMARE; 
+	}
+	
 	public static class Bitcoin 
 	{
-		public static final int START = 200; 
-		
-		public static int getInitialBudget() 
+		public static int getInitialBudget(Difficulty d) 
 		{
-			return START; 
+			switch(d) { 
+			case EASY: 
+				return 200; 
+			case MEDIUM: 
+				return 150;
+			case HARD:
+				return 100; 
+			case NIGHTMARE: 
+				return 100;
+			}
+			return 200; 
 		}
 	}
+	
 	public static class Projectiles 
 	{ 
 		public static final int FIREBALL = 0; 
@@ -73,15 +86,15 @@ public class Constants
 			switch (towerType) 
 			{
 			case FIREWALL:
-				return 100;
+				return 80;
 			case ANTI_VIRUS:
-				return 100;
+				return 150;
 			case ROBOLMER: 
-				return 500;
+				return 600;
 			case TESLA:
-				return 100; 
+				return 450; 
 			case VPN_KNIGHT: 
-				return 100; 
+				return 230; 
 			case HACKER:
 				return 400;
 			}
@@ -93,13 +106,13 @@ public class Constants
 			switch (towerType) 
 			{
 			case FIREWALL:
-				return 10;
+				return 15;
 			case ANTI_VIRUS:
-				return 5;
+				return 20;
 			case ROBOLMER: 
-				return 30;
+				return 15;
 			case TESLA:
-				return 3; 
+				return 50; 
 			case VPN_KNIGHT: 
 				return 10; 	
 			}
@@ -121,15 +134,15 @@ public class Constants
 			switch (towerType)
 			{
 			case FIREWALL:
-				return 100;
+				return 65;
 			case ANTI_VIRUS:
-				return 150;
+				return 75;
 			case ROBOLMER: 
-				return 175;
+				return 150;
 			case TESLA:
-				return 75; 
+				return 100; 
 			case VPN_KNIGHT: 
-				return 125; 
+				return 75; 
 			case HACKER:
 				return 1;
 			}
@@ -138,18 +151,19 @@ public class Constants
 		
 		public static float getAtkSpeed(int towerType) 
 		{
+			// return / 60 = atk per second
 			switch (towerType)
 			{
 			case FIREWALL:
-				return 40;
+				return 90; 
 			case ANTI_VIRUS:
-				return 15;
+				return 70;
 			case ROBOLMER: 
-				return 20;
+				return 20; 
 			case TESLA:
-				return 8; 
+				return 100; 
 			case VPN_KNIGHT: 
-				return 50; 
+				return 96; 
 			case HACKER:
 				return 30;
 			}
@@ -170,15 +184,15 @@ public class Constants
 			switch (enemyType) 
 			{ 
 			case RED_VIRUS: 
-				return 5; 
-			case BLUE_VIRUS: 
 				return 10; 
-			case GREEN_VIRUS: 
+			case BLUE_VIRUS: 
 				return 20; 
+			case GREEN_VIRUS: 
+				return 30; 
 			case YELLOW_VIRUS: 
-				return 30;
+				return 40;
 			case PINK_VIRUS: 
-				return 40; 
+				return 50; 
 			}
 			return 0; 
 		}
@@ -188,7 +202,7 @@ public class Constants
 			switch (enemyType) 
 			{ 
 			case RED_VIRUS: 
-				return 3f; 
+				return 0.7f; 
 			case BLUE_VIRUS: 
 				return 0.8f; 
 			case GREEN_VIRUS: 
@@ -206,11 +220,11 @@ public class Constants
 			switch(enemyType) 
 			{ 
 			case RED_VIRUS: 
-				return 100; 
+				return 75; 
 			case BLUE_VIRUS: 
 				return 150; 
 			case GREEN_VIRUS: 
-				return 600; 
+				return 350; 
 			case YELLOW_VIRUS: 
 				return 200;
 			case PINK_VIRUS: 

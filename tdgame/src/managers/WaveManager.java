@@ -3,16 +3,17 @@ package managers;
 import java.util.ArrayList; 
 import java.util.Arrays; 
 import events.Wave;
-import scenes.Play; 
+import scenes.Play;
+import ui.ActionBar; 
 
 public class WaveManager 
 {
 	private Play play; 
 	private ArrayList<Wave> waves = new ArrayList<>(); //for levels, each wave has its own ArrayList
-	private int enemySpawnTickLimit = 60 * 1; 
+	private int enemySpawnTickLimit = 45 * 1; //time between each spawn 
 	private int enemySpawnTick = enemySpawnTickLimit;
 	private int enemyIndex, waveIndex; //enemy counter and lvl counter
-	private int waveTickLimit = 60 * 10;
+	private int waveTickLimit = 60 * 5;
 	private int waveTick = 0;
 	private boolean waveStartTimer, waveTickTimerOver;
 	
@@ -48,14 +49,13 @@ public class WaveManager
 	
 	public void createWaves() 
 	{ 
-		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0))));
-//		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1))));
-//		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 2, 2, 2, 2, 2))));
-//		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))));
-//		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(3, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3))));
-//		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1))));
-//		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1))));
-
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(3, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1))));
+		waves.add(new Wave(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 1))));
 		// add more waves 
 	}
 	
@@ -105,13 +105,17 @@ public class WaveManager
 
 	public boolean isThereMoreEnemiesInWave() 
 	{
-		if(waveIndex > waves.size()) return false; 
 		return enemyIndex < waves.get(waveIndex).getEnemyList().size();
 	} 
 
 	public boolean isThereMoreWaves() 
 	{
-		return waveIndex < waves.size();
+		boolean isThere = waveIndex + 1< waves.size();
+		if(!isThere) {
+			ActionBar.win = true; 
+			play.win(); 
+		}
+		return isThere; 
 	}
 	
 	public boolean isWaveTimerStarted() 

@@ -101,7 +101,7 @@ public class TowerManager
 			}
 		}
 	}
-
+	
 	public boolean isEnemyInRange(Tower tower, Enemy enemy) 
 	{
 		int range = helpers.Utilities.getHypoDistance(tower.getX(), tower.getY(), enemy.getX(), enemy.getY());

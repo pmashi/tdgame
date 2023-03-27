@@ -68,6 +68,7 @@ public abstract class Enemy
 		{
 			alive = false;
 			enemyManager.rewardBitcoin(enemyType);
+			bounds = new Rectangle(0, 0, 0, 0);
 		}
 	}
 	

@@ -39,11 +39,15 @@ public class GameOver extends GameScene implements SceneMethods
 	
 	public void render(Graphics g) 
 	{		
-		g.setColor(Color.red);
 		g.setFont(Menu.thaleahMassive);
+		if(ActionBar.win) {
+			g.setColor(Color.green);
+			g.drawString("You win!", 300, 220);
+		} else {
+			g.setColor(Color.red); 
+			g.drawString("You lose!", 300, 220);
+		}
 		g.drawString("GAME OVER!", 275, 150);
-		g.drawString(ActionBar.win ? "You win!" : "You lose!", 300, 220);
-		
 		g.setFont(Menu.thaleah);
 		drawButtons(g); 
 	}

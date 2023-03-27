@@ -63,23 +63,26 @@ public class Tower
 		{ 
 		case FIREWALL: 	
 			dmg += 5; 
-			range += 2;
+			range += 10;
 			break; 
 		case ANTI_VIRUS: 
-			dmg += 5; 
+			dmg += 5;
+			range += 10;
+			atkSpeed -= 10; 
 			break;
 		case ROBOLMER: 
 			dmg += 5; 
-			range += 3; 
-			atkSpeed -= 1; 
+			range += 25; 
+			atkSpeed -= 4; 
 			break;
 		case TESLA: 
 			dmg += 5; 
-			range += 2; 
+			range += 50; 
 			break;
 		case VPN_KNIGHT: 
-			range += 5; 
-			atkSpeed -= 1;
+			dmg += 10; 
+			range += 15; 
+			atkSpeed /= 2;
 			break;
 		case HACKER:
 			income += 25; 

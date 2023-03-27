@@ -22,7 +22,7 @@ public class ActionBar extends Bar
 	private DecimalFormat formatter;
 	private boolean showTowerCost;
 	private int towerCostType;
-	private int bitcoin = Constants.Bitcoin.getInitialBudget();
+	private int bitcoin;
 	private int lives = 100;
 	public static boolean win = false; 
 
@@ -30,6 +30,7 @@ public class ActionBar extends Bar
 	{
 		super(x, y, width, height);
 		this.play = play;
+		bitcoin = Constants.Bitcoin.getInitialBudget(play.getDifficulty());
 		formatter = new DecimalFormat("0.0");
 		initButtons();
 	}
@@ -37,7 +38,7 @@ public class ActionBar extends Bar
 	public void initButtons() 
 	{
 		bMenu = new Buttons("Menu", 8, 520, 125, 50);
-		bPause = new Buttons("Pause", 8, 580, 125, 50);
+		bPause = new Buttons("Unpause", 8, 580, 125, 50);
 		
 		towerButtons = new Buttons[6];
 		int width = 50;
@@ -262,9 +263,10 @@ public class ActionBar extends Bar
 		lives = 100;
 		towerCostType = 0;
 		showTowerCost = false;
-		bitcoin = 100;
+		bitcoin = Constants.Bitcoin.getInitialBudget(play.getDifficulty());
 		selectedTower = null;
 		displayedTower = null;
+		win = false; 
 	}
 	
 	public void mouseClicked(int x, int y) 
@@ -428,5 +430,9 @@ public class ActionBar extends Bar
 	public String getTowerCostName() 
 	{
 		return helpers.Constants.Towers.getName(towerCostType);
+	}
+	
+	public boolean getWin() { 
+		return win; 
 	}
 }
