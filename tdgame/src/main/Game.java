@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList; 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import helpers.SaveLoader;
@@ -8,6 +9,7 @@ import scenes.Edit;
 import scenes.GameOver;
 import scenes.Menu;
 import scenes.Play;
+import enemies.*;
 
 public class Game extends JFrame implements Runnable
 {
@@ -26,6 +28,7 @@ public class Game extends JFrame implements Runnable
 	
 	public static void main(String[] args) 
 	{
+		specifications();
 		Game game = new Game(); 
 		game.gamePanel.initInputs();
 		game.start();
@@ -155,5 +158,42 @@ public class Game extends JFrame implements Runnable
 	public TileManager getTileManager()
 	{
 		return tileManager;
+	}
+	
+	public static void specifications() { 
+		ArrayList<Integer> specifs1 = new ArrayList<>(); 
+		specifs1.add(3);
+		specifs1.add(5);
+		specifs1.add(7);
+		specifs1.add(6);
+		specifs1.get(0);
+		specifs1.set(0, 4);
+		for(int i = 0; i < specifs1.size(); i++) {
+			if(specifs1.get(i) == 7)
+				specifs1.remove(i--);
+		}
+		int[][] spec = {{3, 4, 5, 6}, {11, 10, 9, 8}};
+		for(int i = 0; i < spec.length; i++) {
+			for(int k =0; k <spec[i].length;k++) { 
+				System.out.print(spec[i][k]);
+			}
+			System.out.println();
+		}
+		for(int i = 0; i < spec[0].length; i++) {
+			for(int k =0; k <spec.length;k++) { 
+				System.out.print(spec[k][i]);
+			}
+			System.out.println();
+		}
+		for(int[] ints : spec) {
+			for(int i : ints) { 
+				System.out.print(i);
+			}
+			System.out.println();
+		}
+		Enemy[] specific = {new RedVirus(), new BlueVirus()};
+		ArrayList<Enemy> arrListSpec = new ArrayList<>(); 
+		arrListSpec.add(new RedVirus());
+		arrListSpec.add(new BlueVirus());
 	}
 }

@@ -6,6 +6,7 @@ import managers.EnemyManager;
 
 public class RedVirus extends Enemy
 {
+	public RedVirus() {}
 	public RedVirus(float x, float y, int id, EnemyManager enemyManager) 
 	{
 		super(x, y, id, RED_VIRUS, enemyManager);

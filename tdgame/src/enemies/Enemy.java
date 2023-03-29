@@ -16,6 +16,7 @@ public abstract class Enemy
 	protected int lastDirection;
 	protected boolean alive = true;
 	
+	public Enemy() {}
 	public Enemy(float x, float y, int id, int enemyType, EnemyManager enemyManager)
 	{
 		this.x = x;
