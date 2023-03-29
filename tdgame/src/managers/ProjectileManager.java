@@ -80,25 +80,30 @@ public class ProjectileManager
 	public void draw(Graphics g)
 	{
 		Graphics2D g2d = (Graphics2D) g;
-		for (Projectile p : projectiles)
-		{
-			if (p.isActive())
+		try { 
+			for (Projectile p : projectiles)
 			{
-				if (p.getProjectileType() != LIGHTNING)
+				if (p.isActive())
 				{
-					g2d.translate(p.getPos().x, p.getPos().y);
-					g2d.rotate(Math.toRadians(p.getRotation()));
-					g2d.drawImage(projectileImages[p.getProjectileType()], -16, -16	, null);
-					g2d.rotate(-Math.toRadians(p.getRotation()));
-					g2d.translate(-p.getPos().x, -p.getPos().y);
+					if (p.getProjectileType() != LIGHTNING)
+					{
+						g2d.translate(p.getPos().x, p.getPos().y);
+						g2d.rotate(Math.toRadians(p.getRotation()));
+						g2d.drawImage(projectileImages[p.getProjectileType()], -16, -16	, null);
+						g2d.rotate(-Math.toRadians(p.getRotation()));
+						g2d.translate(-p.getPos().x, -p.getPos().y);
+					}
+					else
+					{
+						g2d.drawImage(projectileImages[p.getProjectileType()], (int)p.getPos().x - 16, (int)p.getPos().y - 16, null);
+					}
 				}
-				else
-				{
-					g2d.drawImage(projectileImages[p.getProjectileType()], (int)p.getPos().x - 16, (int)p.getPos().y - 16, null);
-				}
+				drawExplosions(g2d);
 			}
-			drawExplosions(g2d);
+		} catch (Exception ConcurrentModifcationException) {
+			
 		}
+			
 	}
 	
 	public void drawExplosions(Graphics2D g2d) 
