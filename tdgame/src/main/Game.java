@@ -1,6 +1,8 @@
 package main;
 
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import helpers.SaveLoader;
@@ -195,5 +197,35 @@ public class Game extends JFrame implements Runnable
 		ArrayList<Enemy> arrListSpec = new ArrayList<>(); 
 		arrListSpec.add(new RedVirus());
 		arrListSpec.add(new BlueVirus());
+		
+		ArrayList<Integer> select = new ArrayList<>(Arrays.asList(5, 4, 6, 3, 6, 7, 8, 2, 5, 11, 1441));
+		System.out.println(selectintsSort(select));
+		System.out.println(intsertionSort(specifs1)); 
 	}
+	
+	public static ArrayList<Integer> selectintsSort(ArrayList<Integer> ints) { 
+        for(int i = 0; i < ints.size() - 1; i++) { 
+            int leastIndex = i; 
+            for(int k = i + 1; k < ints.size(); k++) {
+                if(ints.get(k) < ints.get(leastIndex)) { 
+                    leastIndex = k; 
+                }
+            }
+            ints.set(i, ints.set(leastIndex, ints.get(i)));
+        }
+        return ints; 
+    }
+
+    public static ArrayList<Integer> intsertionSort(ArrayList<Integer> ints) { 
+        for(int i = 1; i < ints.size(); i++) { 
+            int temp = ints.get(i); 
+            int lowerBound = i;
+            while (lowerBound > 0 && ints.get(lowerBound - 1) > temp) {
+                ints.set(lowerBound, ints.get(lowerBound - 1)); 
+                lowerBound--;
+            } 
+            ints.set(lowerBound, temp);
+        }
+        return ints; 
+    }
 }
