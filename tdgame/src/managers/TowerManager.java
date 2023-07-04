@@ -78,6 +78,16 @@ public class TowerManager
 		{
 			tower.update();
 			attackIfInRange(tower);
+			generateIncome(tower);
+			
+		}
+	}
+	
+	public void generateIncome(Tower tower) { 
+		if (tower.isCooldownOver()) 
+		{
+			play.getActionBar().addBitcoin(tower.getIncome());
+			tower.resetCooldown();
 		}
 	}
 	
@@ -94,9 +104,6 @@ public class TowerManager
 						play.shoot(tower, enemy);
 						tower.resetCooldown();
 					}
-				}
-				else 
-				{
 				}
 			}
 		}

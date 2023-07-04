@@ -30,7 +30,7 @@ public class Game extends JFrame implements Runnable
 	
 	public static void main(String[] args) 
 	{
-		specifications();
+//		specifications();
 		Game game = new Game(); 
 		game.gamePanel.initInputs();
 		game.start();
@@ -96,7 +96,6 @@ public class Game extends JFrame implements Runnable
 			}
 			if (System.currentTimeMillis() - lastTimeCheck >= 1000)
 			{
-				System.out.println("FPS: " + frames + " | UPS: " + updates);
 				frames = 0;
 				updates = 0;
 				lastTimeCheck = System.currentTimeMillis();

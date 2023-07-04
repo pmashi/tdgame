@@ -53,7 +53,7 @@ public class Tower
 	
 	public void setDefaultIncome() 
 	{
-		income = helpers.Constants.Towers.getInitialDamage(towerType); 
+		income = helpers.Constants.Towers.getInitialIncome(towerType); 
 	}
 	
 	public void upgradeTower() 
@@ -87,7 +87,7 @@ public class Tower
 			atkSpeed /= 2;
 			break;
 		case HACKER:
-			income += 25; 
+			income += 5; 
 			break;
 		}
 	}

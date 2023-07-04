@@ -88,15 +88,15 @@ public class Constants
 			case FIREWALL:
 				return 80;
 			case ANTI_VIRUS:
-				return 230;
+				return 150;
 			case ROBOLMER: 
-				return 600;
+				return 500;
 			case TESLA:
-				return 300; 
+				return 175; 
 			case VPN_KNIGHT: 
-				return 370; 
+				return 150; 
 			case HACKER:
-				return 400;
+				return 200;
 			}
 			return 0;
 		}
@@ -124,7 +124,7 @@ public class Constants
 			switch (towerType) 
 			{
 			case HACKER: 
-				return 50; 
+				return 5; 
 			}
 			return 0; 
 		}
@@ -165,7 +165,7 @@ public class Constants
 			case VPN_KNIGHT: 
 				return 96; 
 			case HACKER:
-				return 30;
+				return 180;
 			}
 			return 0; 
 		}

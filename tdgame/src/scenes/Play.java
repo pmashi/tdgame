@@ -315,37 +315,34 @@ public class Play extends GameScene implements SceneMethods
 		return game.getTileManager().getSprite(spriteID);
 	}
 	
-	public TowerManager getTowerManager()
-	{
+	public ActionBar getActionBar() { 
+		return actionBar; 
+	}
+	
+	public TowerManager getTowerManager() {
 		return towerManager;
 	}
 	
-	public EnemyManager getEnemyManager()
-	{
+	public EnemyManager getEnemyManager() {
 		return enemyManager;
 	}
 	
-	public WaveManager getWaveManager() 
-	{
+	public WaveManager getWaveManager() {
 		return waveManager;
 	}
 	
-	public Tower getTowerAt(int x, int y)
-	{
+	public Tower getTowerAt(int x, int y) {
 		return towerManager.getTowerAt(x, y);
 	}
 	
-	public int getTileType(int x, int y)
-	{
+	public int getTileType(int x, int y) {
 		int xCoord = x / Menu.unit;
 		int yCoord = y / Menu.unit;
 		
-		if (xCoord < 0 || xCoord > 29)
-		{
+		if (xCoord < 0 || xCoord > 29) {
 			return 0;
 		}
-		if (yCoord < 0 || yCoord > 19)
-		{
+		if (yCoord < 0 || yCoord > 19) {
 			return 0;
 		}  
 		int id = level[y / Menu.unit][x / Menu.unit];
@@ -356,18 +353,15 @@ public class Play extends GameScene implements SceneMethods
 		return difficulty; 
 	}
 	
-	public void setLevel(int[][] level)
-	{
+	public void setLevel(int[][] level) {
 		this.level = level;
 	}
 
-	public void setSelectedTower(Tower selectedTower) 
-	{
+	public void setSelectedTower(Tower selectedTower) {
 		this.selectedTower = selectedTower;
 	}
 	
-	public void setGamePaused(boolean gamePaused)
-	{
+	public void setGamePaused(boolean gamePaused) {
 		this.gamePaused = gamePaused;
 	}
 	
