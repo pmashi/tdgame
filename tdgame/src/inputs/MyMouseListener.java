@@ -26,7 +26,7 @@ public class MyMouseListener implements MouseListener, MouseMotionListener
 			game.getPlay().mouseDragged(e.getX(), e.getY());
 			break;
 		case EDIT:
-			game.getEditor().mouseDragged((e.getX()), e.getY());
+			game.getEditor().mouseDragged(e.getX(), e.getY());
 		default:
 			break;
 		}
